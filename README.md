@@ -5,3 +5,6 @@ Welcome to  Vaccine Clinic Information and Scheduling System
 *   Course Name: CIS 422
 *   Assignment: Project 1
 *   Date: April 14th, 2021
+
+
+TEST msg - done by Jwei
