@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{#{% load account socialaccount %}#}
+{#{% load crispy_forms_tags %}#}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+    <main style="height: 80%">
+        <div class="container">
+            <section class="mb-4">
+                <div class="row wow fadeIn">
+                    <div class='col-6 offset-3'>
+                        <h1>{% trans "Login" %}</h1>
+                        {% if request.user.is_authenticated %}
+                            <p>You have logged in out system.</p>
+                        {% else %}
+                            <form class="login" method="POST" action="{% url 'login' %}">{% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="loginInputUsername" class="form-label">Username</label>
+                                    <input name="username" type="input" class="form-control" id="loginInputUsername">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="loginInputEmail" class="form-label">Email address</label>
+                                    <input name="email" type="email" class="form-control" id="loginInputEmail"
+                                           aria-describedby="emailHelp">
+                                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="loginInputPwd" class="form-label">Password</label>
+                                    <input name="password" type="password" class="form-control" id="loginInputPwd">
+                                </div>
+                                <button class="btn btn-primary" type="submit">{% trans "Login" %}</button>
+                            </form>                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+{% endblock %}

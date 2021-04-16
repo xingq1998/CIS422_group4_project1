@@ -16,6 +16,11 @@ The website consist of three parts:
 * A public site that lets people view user and clinic information.
 * An admin site that lets you add, change, and delete data.
 
+# Environment
+
+database: mysql https://dev.mysql.com/downloads/mysql/
+backend: django Python 3.7.9
+
 # How to run
 
 We’ll assume you have Django installed already.

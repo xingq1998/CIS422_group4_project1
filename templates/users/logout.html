@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+{#{% load account socialaccount %}#}
+{#{% load crispy_forms_tags %}#}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+    <main style="height: 80%">
+        <div class="container">
+            <section class="mb-4">
+                <div class="row wow fadeIn">
+                    <div class='col-6 offset-3'>
+                        <h1>{% trans "Login" %}</h1>
+                        {% if request.user.is_authenticated %}
+                            <p>Logout failed.</p>
+                        {% else %}
+                            <p>Logout success.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-"""djangoProject URL Configuration
+"""app URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -15,9 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from . import views
+
+app_name = 'app'
 
 urlpatterns = [
+    path('', views.index, name='index'),
+
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
-    path('clinics/', include('clinics.urls'))
+    path('signup/', views.account_signup, name='signup'),
+    path('login/', views.account_login, name='login'),
+    path('logout/', views.account_logout, name='logout'),
+    # path('login/$', views.account_login, name="account_login"),
+    # path('users/', include('users.urls', namespace='users')),
+    # path('clinics/', include('clinics.urls', namespace='clinics'))
 ]

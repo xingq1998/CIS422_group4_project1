@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+{#{% load account socialaccount %}#}
+{#{% load crispy_forms_tags %}#}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+    <main style="height: 80%">
+        <div class="container">
+            <section class="mb-4">
+                <div class="row wow fadeIn">
+                    <div class='col-6 offset-3'>
+                        <h1>{% trans "Sign up" %}</h1>
+                        {% if request.user.is_authenticated %}
+                            <p>You have logged in out system.</p>
+                        {% else %}
+                            <form class="signup" method="POST" action="{% url 'signup' %}">{% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="signupInputUsername" class="form-label">Username</label>
+                                    <input name="username" type="input" class="form-control" id="signupInputUsername">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="signupInputEmail" class="form-label">Email address</label>
+                                    <input name="email" type="email" class="form-control has-validation"
+                                           id="signupInputEmail"
+                                           aria-describedby="emailHelp">
+                                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="signupInputPhone" class="form-label">Phone</label>
+                                    <input name="phone" type="tel" class="form-control" id="signupInputPhone"
+                                           aria-describedby="phoneHelp">
+                                    <div id="phoneHelp" class="form-text">We'll never share your phone with anyone else.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="signupInputPwd" class="form-label">Password</label>
+                                    <input name="password" type="password" class="form-control" id="signupInputPwd">
+                                </div>
+                                <button class="btn btn-primary" type="submit">{% trans "Sign up" %}</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+{% endblock %}
