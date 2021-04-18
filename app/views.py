@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm
 from django.contrib.auth.models import User
+
+from .models import Item
 
 
 def index(request):
@@ -52,3 +53,9 @@ def account_login(request):
 def account_logout(request):
     logout(request)
     return render(request, 'users/logout.html')
+
+
+def test(request):
+    i = Item(name="test hahaha")
+    i.save()
+    return "ok"

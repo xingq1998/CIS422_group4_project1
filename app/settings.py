@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,8 +30,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app',
-    'clinics.apps.ClinicsConfig', # <TR> Used so I can pull up the clinics page for debugging purposes
-    'django.contrib.admin',        # Not sure how else to pull it up?
+    'clinics.apps.ClinicsConfig',  # <TR> Used so I can pull up the clinics page for debugging purposes
+    'django.contrib.admin',  # Not sure how else to pull it up?
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -80,7 +79,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

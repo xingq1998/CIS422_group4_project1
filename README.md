@@ -47,6 +47,12 @@ To create your module, make sure you’re in the same directory as manage.py and
 
 `python manage.py startapp [new module name]`
 
+To sync models with db updates, the following commands can be used:
+
+`python manage.py makemigrations`
+
+` python manage.py migrate `
+
 # Reference
 
 For Django backend: https://docs.djangoproject.com/en/3.2

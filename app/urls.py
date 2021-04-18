@@ -21,12 +21,10 @@ app_name = 'app'
 
 urlpatterns = [
     path('', views.index, name='index'),
-
     path('admin/', admin.site.urls),
     path('signup/', views.account_signup, name='signup'),
     path('login/', views.account_login, name='login'),
     path('logout/', views.account_logout, name='logout'),
-    # path('login/$', views.account_login, name="account_login"),
-    # path('users/', include('users.urls', namespace='users')),
-    path('clinics/', include('clinics.urls', namespace='clinics')) # <TR> Used so I can pull up the clinics page for debugging purposes
+    path('clinics/', include('clinics.urls', namespace='clinics'))
+    # <TR> Used so I can pull up the clinics page for debugging purposes
 ]
