@@ -1,0 +1,30 @@
+<!Doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        {% if state_clinics %}
+            <h2>Clinics</h2>
+            <ul>
+                {% for clinic in state_clinics %}
+                    <li>{{ clinic }}</li>
+                {% endfor %}
+             </ul>
+        {% else %}
+            <p>No states are available.</p>
+        {% endif %}
+        {% if state_clinics_schedules %}
+            <h2>Clincs and schedules</h2>
+            <ul>
+                {% for clinic in state_clinics_schedules %}
+                    <li>{{ clinic }}</li>
+                {% endfor %}
+             </ul>
+        {% else %}
+            <p>No schedules are available.</p>
+        {% endif %}
+
+    </body>
+</html>

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,7 +31,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app',
-    'django.contrib.admin',
+    'clinics.apps.ClinicsConfig', # <TR> Used so I can pull up the clinics page for debugging purposes
+    'django.contrib.admin',        # Not sure how else to pull it up?
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -74,19 +76,11 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mydb',
-        'USER': 'root',
-        'PASSWORD': '00000000',
-        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
-        'OPTIONS': {
-            # 'read_default_file': 'my.cnf',
-            'init_command': 'SET default_storage_engine=INNODB',
-            # 'timeout': 20,
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

@@ -28,5 +28,5 @@ urlpatterns = [
     path('logout/', views.account_logout, name='logout'),
     # path('login/$', views.account_login, name="account_login"),
     # path('users/', include('users.urls', namespace='users')),
-    # path('clinics/', include('clinics.urls', namespace='clinics'))
+    path('clinics/', include('clinics.urls', namespace='clinics')) # <TR> Used so I can pull up the clinics page for debugging purposes
 ]
