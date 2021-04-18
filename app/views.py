@@ -4,9 +4,6 @@ from django.template import loader
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
-from .models import Item
-
-
 def index(request):
     return render(request, 'home.html', None)
 
@@ -53,9 +50,3 @@ def account_login(request):
 def account_logout(request):
     logout(request)
     return render(request, 'users/logout.html')
-
-
-def test(request):
-    i = Item(name="test hahaha")
-    i.save()
-    return "ok"

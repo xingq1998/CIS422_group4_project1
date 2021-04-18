@@ -1,0 +1,90 @@
+html,
+body {
+  background-color: #f8f9fa;
+}
+
+.top {
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  max-width: 1024px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.header .logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header .logo img {
+  height: 32px;
+}
+
+.header .logo span {
+  margin-left: 5px;
+  font-size: 22px;
+  color: #f56c6c;
+}
+
+.top-form {
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.top-form .title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.top-form .divide-line {
+  margin: 10px 20px 30px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.top-form form .form-item {
+  margin-bottom: 20px;
+}
+
+.top-form form .form-item .label {
+  font-size: 18px;
+}
+
+.top-form form .form-item .input {
+  margin-top: 15px;
+  color: #666;
+}
+
+.top-form form {
+  margin-top: 20px;
+}
+
+.body {
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  color: #999;
+  font-size: 14px;
+}

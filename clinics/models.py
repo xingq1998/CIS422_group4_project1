@@ -1,5 +1,6 @@
 from django.db import models
 from enum import Enum
+from django.db.models.functions import Length, Upper
 
 
 # ------------------------------
@@ -11,7 +12,7 @@ class Clinic(models.Model):
     zip_code = models.IntegerField(default=0)
     phizer_stock = models.IntegerField(default=0)
     moderna_stock = models.IntegerField(default=0)
-    
+
     def __str__(self):
         clinic = f"""{self.address} {self.city}, {self.state} {self.zip_code}| Phizer_Stock: {self.phizer_stock} Moderna_Stock: {self.moderna_stock}"""
         return clinic
@@ -27,5 +28,6 @@ class ScheduleTime(models.Model):
     def __str__(self):
         return f"""{self.clinic_id} {self.start_time} {self.number_concurrent_appts}"""
 
-
+# ------------------------------
+# Model Functions:
 
