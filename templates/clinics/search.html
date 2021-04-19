@@ -360,6 +360,31 @@
 <div class="body">
     <div class="content container" style="padding: 30px 0">
         <div class="row g-3">
+            {% for clinic in clinics %}
+                <div class="col-sm-6 col-md-4">
+                    <div class="card">
+                        <img
+                                src="{{ pics|random }}"
+                                class="card-img-top"
+                        />
+                        <div class="card-body">
+                            <h5 class="card-title">{{ clinic.name }}</h5>
+                            <p class="card-text">
+                                3000 N 14th St, Suite 3A, Bismarck ND, 58503 <br/>
+                                <b>Vaccinations offered:</b>
+                                {% if clinic.phizer_stock > 0 %}Phizer{% endif %}
+                                {% if clinic.moderna_stock > 0 %}Moderna{% endif %}
+                                {% if clinic.janssen_stock > 0 %}Janssen{% endif %}
+                                <br/>
+                                <b>Age groups served:</b>{{ clinic.ages }}
+                                <br/>
+                                <b>Services offered:</b> {{ clinic.services }}
+                            </p>
+                            <a href="#" class="btn btn-primary">Schedule</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
             <div class="col-sm-6 col-md-4">
                 <div class="card">
                     <img
@@ -397,6 +422,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-sm-6 col-md-4">
                 <div class="card">
                     <img
@@ -429,7 +455,7 @@
                             <b>Age groups served:</b> Adults, Seniors <br/>
                             <b>Services offered:</b> COVID-19 Vaccination
                         </p>
-                        <a href="#" class="btn btn-primary">Sign up</a>
+                        <a href="#" class="btn btn-primary">Schedule</a>
                     </div>
                 </div>
             </div>

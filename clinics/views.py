@@ -45,6 +45,11 @@ def clinics_all(request):
 
 
 def clinics_search(request):
+    pic_address_list = [
+        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNk1EQlE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--675d17850b4958157e947951755686414171f935/clinic2443.png',
+        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNDhGQlE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--4517b55b198761a91ece91eddbcb2865adc8fbe6/clinic2457.png',
+        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBeXkzQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--161199175c341c23a1b768f134828e570b6f26d0/clinic1656.png',
+        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBelRJQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--3574f2adc48da417240d74b1c350678a40ac123e/clinic2298.png']
     if request.method == 'POST':
         post_dict = request.POST
         services = post_dict.get("services", "")
@@ -66,10 +71,11 @@ def clinics_search(request):
             results = results.filter(city=str.lower(city))
         if vaccine_brand != '':
             results = results.filter(phizer_stock__gt=0)
-        return render(request, "clinics/search.html", {'clinics': str(results), 'post_dict': post_dict})
+        return render(request, "clinics/search.html",
+                      {'clinics': results, 'post_dict': post_dict, 'pics': pic_address_list})
     else:
         results = Clinic.objects.all()[:10]
-        return render(request, "clinics/search.html", {'clinics': str(results)})
+        return render(request, "clinics/search.html", {'clinics': results, 'pics': pic_address_list})
 
 
 def clinics_detail(request, clinic_id):
@@ -79,21 +85,26 @@ def clinics_detail(request, clinic_id):
 
 def clinics_bulk_insert(request, n_records):
     instances = []
+    name_list = ['Prairie Sinus Ear Allergy Clinic', 'Pembina County Health Department', 'Rolette County Public Health',
+                 'Parshall Boys & Girls Club']
     state_list = ['AL', 'AK', 'AZ', 'AR', 'CA', 'IN', 'IA', 'KS', 'KY', 'LA', 'NE', 'NV', 'NH', 'NY', 'NC', 'PA', 'RI',
                   'TX', 'UT', 'VT', 'VA', 'WA', 'WI', 'WY']
     city_list = []
     stock_threshold = 100
-    services_list = [(Clinic.Services.COVID, Clinic.Services.Vaccination), Clinic.Services.All]
-    ages_list = [(Clinic.AgeGroup.Adults, Clinic.AgeGroup.Seniors), Clinic.AgeGroup.All]
+    services_list = [Clinic.Services.COVID, Clinic.Services.Vaccination, Clinic.Services.All, Clinic.Services.Testing]
+    ages_list = [Clinic.AgeGroup.Adults, Clinic.AgeGroup.Seniors, Clinic.AgeGroup.All, Clinic.AgeGroup.Children,
+                 Clinic.AgeGroup.Others]
     for i in range(0, n_records):
         random_i = random.randint(0, len(state_list) - 1)
-        instances.append(Clinic(zip_code=i,
-                                state=state_list[random_i - 1],
-                                city='pitts',
-                                phizer_stock=random.randint(0, stock_threshold),
-                                moderna_stock=random.randint(0, stock_threshold),
-                                janssen_stock=random.randint(0, stock_threshold),
-                                services=services_list[random.randint(0, 1)],
-                                ages=ages_list[random.randint(0, 1)]))
+        instances.append(Clinic(
+            name=name_list[random.randint(0, len(name_list) - 1)],
+            zip_code=i,
+            state=state_list[random_i - 1],
+            city='pitts',
+            phizer_stock=random.randint(0, stock_threshold),
+            moderna_stock=random.randint(0, stock_threshold),
+            janssen_stock=random.randint(0, stock_threshold),
+            services=services_list[random.randint(0, len(services_list) - 1)],
+            ages=ages_list[random.randint(0, len(ages_list) - 1)]))
     ret = Clinic.objects.bulk_create(instances)
     return render(request, "clinics/bulk_insert.html", {'result': ret})
