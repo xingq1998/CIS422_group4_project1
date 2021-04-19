@@ -1,21 +1,49 @@
 from django.db import models
 from enum import Enum
 from django.db.models.functions import Length, Upper
+from django.utils.translation import gettext_lazy as _
 
 
 # ------------------------------
 # Models: 
 class Clinic(models.Model):
-    address = models.CharField(max_length=200)
-    city = models.CharField(max_length=40)
-    state = models.CharField(max_length=30)
     zip_code = models.IntegerField(default=0)
+    state = models.CharField(max_length=30)
+    city = models.CharField(max_length=40)
+    address = models.CharField(max_length=200)
     phizer_stock = models.IntegerField(default=0)
     moderna_stock = models.IntegerField(default=0)
+    janssen_stock = models.IntegerField(default=0)
 
     def __str__(self):
         clinic = f"""{self.address} {self.city}, {self.state} {self.zip_code}| Phizer_Stock: {self.phizer_stock} Moderna_Stock: {self.moderna_stock}"""
         return clinic
+
+    class Services(models.TextChoices):
+        Testing = 'T', _('Testing')
+        Vaccination = 'V', _('Vaccination')
+        Screening = 'S', _('Screening')
+        COVID = 'C', _('COVID')
+        All = 'ALL', _('All')
+
+    services = models.CharField(
+        max_length=3,
+        choices=Services.choices,
+        default=Services.All,
+    )
+
+    class AgeGroup(models.TextChoices):
+        Children = 'C', _('Children')
+        Adults = 'A', _('Adults')
+        Seniors = 'S', _('Seniors')
+        Others = 'O', _('Others')
+        All = 'ALL', _('All')
+
+    ages = models.CharField(
+        max_length=3,
+        choices=AgeGroup.choices,
+        default=AgeGroup.All,
+    )
 
 
 # Clinic schedule time references a clinic_id in a many-to-one relationship
@@ -30,4 +58,3 @@ class ScheduleTime(models.Model):
 
 # ------------------------------
 # Model Functions:
-

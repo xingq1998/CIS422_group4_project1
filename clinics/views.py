@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+import random
 
 from .models import Clinic, ScheduleTime
 
@@ -54,6 +55,7 @@ def clinics_search(request):
         location = post_dict.get("location", "")
         year = post_dict.get("year", "")
         month = post_dict.get("month", "")
+        day = post_dict.get("day", "")
         vaccine_brand = post_dict.get("vaccineBrand", "")
         results = Clinic.objects.all()
         if zipcode != '':
@@ -64,7 +66,7 @@ def clinics_search(request):
             results = results.filter(city=str.lower(city))
         if vaccine_brand != '':
             results = results.filter(phizer_stock__gt=0)
-        return render(request, "clinics/search.html", {'clinics': str(results)})
+        return render(request, "clinics/search.html", {'clinics': str(results), 'post_dict': post_dict})
     else:
         results = Clinic.objects.all()[:10]
         return render(request, "clinics/search.html", {'clinics': str(results)})
@@ -73,3 +75,25 @@ def clinics_search(request):
 def clinics_detail(request, clinic_id):
     result = Clinic.objects.get(id=clinic_id)
     return render(request, "clinics/detail.html", {'clinic_info': str(result)})
+
+
+def clinics_bulk_insert(request, n_records):
+    instances = []
+    state_list = ['AL', 'AK', 'AZ', 'AR', 'CA', 'IN', 'IA', 'KS', 'KY', 'LA', 'NE', 'NV', 'NH', 'NY', 'NC', 'PA', 'RI',
+                  'TX', 'UT', 'VT', 'VA', 'WA', 'WI', 'WY']
+    city_list = []
+    stock_threshold = 100
+    services_list = [(Clinic.Services.COVID, Clinic.Services.Vaccination), Clinic.Services.All]
+    ages_list = [(Clinic.AgeGroup.Adults, Clinic.AgeGroup.Seniors), Clinic.AgeGroup.All]
+    for i in range(0, n_records):
+        random_i = random.randint(0, len(state_list) - 1)
+        instances.append(Clinic(zip_code=i,
+                                state=state_list[random_i - 1],
+                                city='pitts',
+                                phizer_stock=random.randint(0, stock_threshold),
+                                moderna_stock=random.randint(0, stock_threshold),
+                                janssen_stock=random.randint(0, stock_threshold),
+                                services=services_list[random.randint(0, 1)],
+                                ages=ages_list[random.randint(0, 1)]))
+    ret = Clinic.objects.bulk_create(instances)
+    return render(request, "clinics/bulk_insert.html", {'result': ret})
