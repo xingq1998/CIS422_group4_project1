@@ -57,4 +57,3 @@ To sync models with db updates, the following commands can be used:
 
 For Django backend: https://docs.djangoproject.com/en/3.2
 
-# TEST msg - done by Jwei
