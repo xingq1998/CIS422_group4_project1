@@ -104,7 +104,7 @@ def clinics_search(request):
 
 def clinics_detail(request, clinic_id):
     result = Clinic.objects.get(id=clinic_id)
-    return render(request, "clinics/info.html", {'clinic_info': str(result)})
+    return render(request, "clinics/detail.html", {'clinic_info': str(result)})
 
 
 def clinics_bulk_insert(request, n_records):
