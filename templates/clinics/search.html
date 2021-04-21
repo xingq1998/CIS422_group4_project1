@@ -208,15 +208,6 @@
                                         id="top-form-zip-code"
                                         placeholder="e.g. PA"
                                 />
-                                {#                                <select class="form-select" name="withIn">#}
-                                {#                                    <option value="all" selected>All</option>#}
-                                {#                                    <option value="1">1 mile</option>#}
-                                {#                                    <option value="5">5 miles</option>#}
-                                {#                                    <option value="10">10 miles</option>#}
-                                {#                                    <option value="25">25 miles</option>#}
-                                {#                                    <option value="50">50 miles</option>#}
-                                {#                                    <option value="100">100 miles</option>#}
-                                {#                                </select>#}
                             </div>
                         </div>
                     </div>
@@ -236,7 +227,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div class="form-item">
                             <div class="label">Location</div>
                             <div class="input">
@@ -258,6 +249,7 @@
                                         style="width: 30%; display: inline-block"
                                         name="year"
                                 >
+                                    <option value="2021" selected disabled hidden>2021</option>
                                     <option value="2026">2026</option>
                                     <option value="2025">2025</option>
                                     <option value="2024">2024</option>
@@ -364,7 +356,7 @@
                 <div class="col-sm-6 col-md-4">
                     <div class="card">
                         <img
-                                src="{{ pics|random }}"
+                                src="{{ clinic.pic_address }}"
                                 class="card-img-top"
                         />
                         <div class="card-body">
@@ -376,7 +368,12 @@
                                 {% if clinic.moderna_stock > 0 %}Moderna{% endif %}
                                 {% if clinic.janssen_stock > 0 %}Janssen{% endif %}
                                 <br/>
-                                <b>Age groups served:</b>{{ clinic.ages }}
+                                <b>Age groups served:</b>
+                                {% if clinic.Children == True %}Children{% endif %}
+                                {% if clinic.Adults == True %}Children{% endif %}
+                                {% if clinic.Seniors == True %}Children{% endif %}
+                                {% if clinic.Others == True %}Children{% endif %}
+                                {% if clinic.All_Ages == True %}Children{% endif %}
                                 <br/>
                                 <b>Services offered:</b> {{ clinic.services }}
                             </p>
@@ -385,80 +382,6 @@
                     </div>
                 </div>
             {% endfor %}
-            <div class="col-sm-6 col-md-4">
-                <div class="card">
-                    <img
-                            src="https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNk1EQlE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--675d17850b4958157e947951755686414171f935/clinic2443.png"
-                            class="card-img-top"
-                    />
-                    <div class="card-body">
-                        <h5 class="card-title">Prairie Sinus Ear Allergy Clinic</h5>
-                        <p class="card-text">
-                            3000 N 14th St, Suite 3A, Bismarck ND, 58503 <br/>
-                            <b>Vaccinations offered:</b> Contact Clinic Site <br/>
-                            <b>Age groups served:</b> Adults, Seniors <br/>
-                            <b>Services offered:</b> COVID-19 Vaccination
-                        </p>
-                        <a href="#" class="btn btn-primary">Sign up</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <div class="card">
-                    <img
-                            src="https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNDhGQlE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--4517b55b198761a91ece91eddbcb2865adc8fbe6/clinic2457.png"
-                            class="card-img-top"
-                    />
-                    <div class="card-body">
-                        <h5 class="card-title">Pembina County Health Department</h5>
-                        <p class="card-text">
-                            301 DAKOTA ST W, SUITE 2, Cavalier 177710032, 58220 <br/>
-                            <b>Vaccinations offered:</b> Pfizer-BioNTech COVID-19 Vaccine
-                            <br/>
-                            <b>Age groups served:</b> All Ages <br/>
-                            <b>Services offered:</b> COVID-19 Vaccination
-                        </p>
-                        <a href="#" class="btn btn-primary">Sign up</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4">
-                <div class="card">
-                    <img
-                            src="https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBeXkzQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--161199175c341c23a1b768f134828e570b6f26d0/clinic1656.png"
-                            class="card-img-top"
-                    />
-                    <div class="card-body">
-                        <h5 class="card-title">Rolette County Public Health</h5>
-                        <p class="card-text">
-                            14 1st St SE, Rolla ND, 58367 <br/>
-                            <b>Vaccinations offered:</b> Moderna COVID-19 Vaccine <br/>
-                            <b>Age groups served:</b> Adults, Seniors <br/>
-                            <b>Services offered:</b> COVID-19 Vaccination
-                        </p>
-                        <a href="#" class="btn btn-primary">Sign up</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <div class="card">
-                    <img
-                            src="https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBelRJQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--3574f2adc48da417240d74b1c350678a40ac123e/clinic2298.png"
-                            class="card-img-top"
-                    />
-                    <div class="card-body">
-                        <h5 class="card-title">Parshall Boys & Girls Club</h5>
-                        <p class="card-text">
-                            701 Nokota Rd, Parshall ND, 58770 <br/>
-                            <b>Vaccinations offered:</b> Moderna COVID-19 Vaccine <br/>
-                            <b>Age groups served:</b> Adults, Seniors <br/>
-                            <b>Services offered:</b> COVID-19 Vaccination
-                        </p>
-                        <a href="#" class="btn btn-primary">Schedule</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

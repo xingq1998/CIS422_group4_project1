@@ -1,12 +1,11 @@
 from django.db import models
-from enum import Enum
-from django.db.models.functions import Length, Upper
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
 # ------------------------------
-# Models: 
+# Models:
+
 class Clinic(models.Model):
     name = models.CharField(max_length=30, default='Prairie Sinus Ear Allergy Clinic')
     zip_code = models.IntegerField(default=0)
@@ -18,35 +17,49 @@ class Clinic(models.Model):
     janssen_stock = models.IntegerField(default=0)
     datetime = models.DateTimeField(default=timezone.now)
 
+    Testing = models.BooleanField(default=False)
+    Vaccination = models.BooleanField(default=False)
+    Screening = models.BooleanField(default=False)
+    COVID = models.BooleanField(default=False)
+
+    Children = models.BooleanField(default=False)
+    Adults = models.BooleanField(default=False)
+    Seniors = models.BooleanField(default=False)
+    Others = models.BooleanField(default=False)
+    All_Ages = models.BooleanField(default=False)
+
+    pic_address = models.CharField(max_length=300,
+                                   default='https://cdn.upmc.com/-/media/upmc/campaigns/covid-vaccine/vaccineoggraphic.jpg?la=en&rev=3105491e4bd8458199540f68f6ab86f6')
+
     def __str__(self):
         clinic = f"""{self.address} {self.city}, {self.state} {self.zip_code}| Phizer_Stock: {self.phizer_stock} Moderna_Stock: {self.moderna_stock}"""
         return clinic
 
-    class Services(models.TextChoices):
-        Testing = 'Testing', _('Testing')
-        Vaccination = 'Vaccination', _('Vaccination')
-        Screening = 'Screening', _('Screening')
-        COVID = 'COVID', _('COVID')
-        All = 'All', _('All')
-
-    services = models.CharField(
-        max_length=11,
-        choices=Services.choices,
-        default=Services.All,
-    )
-
-    class AgeGroup(models.TextChoices):
-        Children = 'Children', _('Children')
-        Adults = 'Adults', _('Adults')
-        Seniors = 'Seniors', _('Seniors')
-        Others = 'Others', _('Others')
-        All = 'All', _('All')
-
-    ages = models.CharField(
-        max_length=10,
-        choices=AgeGroup.choices,
-        default=AgeGroup.All,
-    )
+    # class Services(models.TextChoices):
+    #     Testing = 'Testing', _('Testing')
+    #     Vaccination = 'Vaccination', _('Vaccination')
+    #     Screening = 'Screening', _('Screening')
+    #     COVID = 'COVID', _('COVID')
+    #     All = 'All', _('All')
+    #
+    # services = models.CharField(
+    #     max_length=11,
+    #     choices=Services.choices,
+    #     default=Services.All,
+    # )
+    #
+    # class AgeGroup(models.TextChoices):
+    #     Children = 'Children', _('Children')
+    #     Adults = 'Adults', _('Adults')
+    #     Seniors = 'Seniors', _('Seniors')
+    #     Others = 'Others', _('Others')
+    #     All = 'All', _('All')
+    #
+    # ages = models.CharField(
+    #     max_length=10,
+    #     choices=AgeGroup.choices,
+    #     default=AgeGroup.All,
+    # )
 
 
 # Clinic schedule time references a clinic_id in a many-to-one relationship

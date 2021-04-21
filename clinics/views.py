@@ -45,11 +45,6 @@ def clinics_all(request):
 
 
 def clinics_search(request):
-    pic_address_list = [
-        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNk1EQlE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--675d17850b4958157e947951755686414171f935/clinic2443.png',
-        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNDhGQlE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--4517b55b198761a91ece91eddbcb2865adc8fbe6/clinic2457.png',
-        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBeXkzQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--161199175c341c23a1b768f134828e570b6f26d0/clinic1656.png',
-        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBelRJQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--3574f2adc48da417240d74b1c350678a40ac123e/clinic2298.png']
     if request.method == 'POST':
         post_dict = request.POST
         services = post_dict.get("services", "")
@@ -66,16 +61,40 @@ def clinics_search(request):
         if zipcode != '':
             results = results.filter(zip_code=int(zipcode))
         if state != '':
-            results = results.filter(state=str.lower(state))
+            results = results.filter(state__startswith=str.lower(state))
         if city != '':
-            results = results.filter(city=str.lower(city))
+            results = results.filter(cit__startswithy=str.lower(city))
+        if location != '':
+            results = results.filter(location__contains=location)
+        if year != '':
+            results = results.filter(datetime__year=int(year))
         if vaccine_brand != '':
             results = results.filter(phizer_stock__gt=0)
+        if len(services) > 0:
+            if 'testing' in services:
+                results = results.filter(Testing=True)
+            if 'vaccination' in services:
+                results = results.filter(Vaccination=True)
+            if 'screening' in services:
+                results = results.filter(Screening=True)
+            if 'covid19Vaccination' in services:
+                results = results.filter(COVID=True)
+        if len(ages) > 0:
+            if 'allAges' in ages:
+                results = results.filter(All_Ages=True)
+            if 'children' in ages:
+                results = results.filter(Children=True)
+            if 'adults' in ages:
+                results = results.filter(Adults=True)
+            if 'seniors' in ages:
+                results = results.filter(Seniors=True)
+            if 'others' in ages:
+                results = results.filter(Others=True)
         return render(request, "clinics/search.html",
-                      {'clinics': results, 'post_dict': post_dict, 'pics': pic_address_list})
+                      {'clinics': results, 'post_dict': post_dict})
     else:
         results = Clinic.objects.all()[:10]
-        return render(request, "clinics/search.html", {'clinics': results, 'pics': pic_address_list})
+        return render(request, "clinics/search.html", {'clinics': results})
 
 
 def clinics_detail(request, clinic_id):
@@ -84,6 +103,11 @@ def clinics_detail(request, clinic_id):
 
 
 def clinics_bulk_insert(request, n_records):
+    pic_address_list = [
+        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNk1EQlE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--675d17850b4958157e947951755686414171f935/clinic2443.png',
+        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNDhGQlE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--4517b55b198761a91ece91eddbcb2865adc8fbe6/clinic2457.png',
+        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBeXkzQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--161199175c341c23a1b768f134828e570b6f26d0/clinic1656.png',
+        'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBelRJQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--3574f2adc48da417240d74b1c350678a40ac123e/clinic2298.png']
     instances = []
     name_list = ['Prairie Sinus Ear Allergy Clinic', 'Pembina County Health Department', 'Rolette County Public Health',
                  'Parshall Boys & Girls Club']
@@ -91,9 +115,6 @@ def clinics_bulk_insert(request, n_records):
                   'TX', 'UT', 'VT', 'VA', 'WA', 'WI', 'WY']
     city_list = []
     stock_threshold = 100
-    services_list = [Clinic.Services.COVID, Clinic.Services.Vaccination, Clinic.Services.All, Clinic.Services.Testing]
-    ages_list = [Clinic.AgeGroup.Adults, Clinic.AgeGroup.Seniors, Clinic.AgeGroup.All, Clinic.AgeGroup.Children,
-                 Clinic.AgeGroup.Others]
     for i in range(0, n_records):
         random_i = random.randint(0, len(state_list) - 1)
         instances.append(Clinic(
@@ -104,7 +125,26 @@ def clinics_bulk_insert(request, n_records):
             phizer_stock=random.randint(0, stock_threshold),
             moderna_stock=random.randint(0, stock_threshold),
             janssen_stock=random.randint(0, stock_threshold),
-            services=services_list[random.randint(0, len(services_list) - 1)],
-            ages=ages_list[random.randint(0, len(ages_list) - 1)]))
-    ret = Clinic.objects.bulk_create(instances)
+            Testing=random_boolean(),
+            Vaccination=random_boolean(),
+            Screening=random_boolean(),
+            COVID=random_boolean(),
+
+            Children=random_boolean(),
+            Adults=random_boolean(),
+            Seniors=random_boolean(),
+            Others=random_boolean(),
+            All_Ages=random_boolean(),
+
+            pic_address=random_pick(pic_address_list),
+        ))
+        ret = Clinic.objects.bulk_create(instances)
     return render(request, "clinics/bulk_insert.html", {'result': ret})
+
+
+def random_boolean():
+    return True if random.randint(0, 10) % 2 == 0 else False
+
+
+def random_pick(list):
+    return list[random.randint(0, len(list) - 1)]

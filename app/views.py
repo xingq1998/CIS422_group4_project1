@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.template import loader
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+
 
 def index(request):
     return render(request, 'home.html', None)
@@ -16,7 +15,6 @@ def account_signup(request):
     if request.user.is_authenticated:
         return render(request, 'users/signup.html')
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
         post_dict = request.POST
         username = post_dict.get("username", "")
         email = post_dict.get("email", "")
@@ -32,7 +30,6 @@ def account_signup(request):
 
 
 def account_login(request):
-    # if this is a POST request we need to process the form data
     if request.user.is_authenticated:
         return render(request, 'users/login.html')
     if request.method == 'POST':
