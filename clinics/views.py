@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 import random
@@ -83,18 +84,18 @@ def clinics_search(request):
             if 'allAges' in ages:
                 results = results.filter(All_Ages=True)
             if 'children' in ages:
-                results = results.filter(Children=True)
-            if 'adults' in ages:
-                results = results.filter(Adults=True)
-            if 'seniors' in ages:
-                results = results.filter(Seniors=True)
-            if 'others' in ages:
-                results = results.filter(Others=True)
-        return render(request, "clinics/search.html",
-                      {'clinics': results, 'post_dict': post_dict})
-    else:
-        results = Clinic.objects.all()[:10]
-        return render(request, "clinics/search.html", {'clinics': results})
+                results = results.filter(Q(Children=True) | Q(All_Ages=True))
+                if 'adults' in ages:
+                    results = results.filter(Adults=True)
+                if 'seniors' in ages:
+                    results = results.filter(Seniors=True)
+                if 'others' in ages:
+                    results = results.filter(Others=True)
+            return render(request, "clinics/search.html",
+                          {'clinics': results, 'post_dict': post_dict})
+        else:
+            results = Clinic.objects.all()[:10]
+            return render(request, "clinics/search.html", {'clinics': results})
 
 
 def clinics_detail(request, clinic_id):
@@ -109,19 +110,34 @@ def clinics_bulk_insert(request, n_records):
         'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBeXkzQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--161199175c341c23a1b768f134828e570b6f26d0/clinic1656.png',
         'https://www.ndvax.org/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBelRJQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--3574f2adc48da417240d74b1c350678a40ac123e/clinic2298.png']
     instances = []
-    name_list = ['Prairie Sinus Ear Allergy Clinic', 'Pembina County Health Department', 'Rolette County Public Health',
+    name_list = ['Prairie Sinus Ear Allergy Clinic', 'Pembina County Health Department',
+                 'Rolette County Public Health',
                  'Parshall Boys & Girls Club']
-    state_list = ['AL', 'AK', 'AZ', 'AR', 'CA', 'IN', 'IA', 'KS', 'KY', 'LA', 'NE', 'NV', 'NH', 'NY', 'NC', 'PA', 'RI',
+    state_list = ['AL', 'AK', 'AZ', 'AR', 'CA', 'IN', 'IA', 'KS', 'KY', 'LA', 'NE', 'NV', 'NH', 'NY', 'NC', 'PA',
+                  'RI',
                   'TX', 'UT', 'VT', 'VA', 'WA', 'WI', 'WY']
-    city_list = []
+    city_list = ['New York City',
+                 'Los Angeles',
+                 'Chicago',
+                 'Houston',
+                 'Phoenix',
+                 'Philadelphia',
+                 'San Antonio',
+                 'San Diego']
     stock_threshold = 100
+
+    def random_boolean():
+        return True if random.randint(0, 10) % 2 == 0 else False
+
+    def random_pick(list):
+        return list[random.randint(0, len(list) - 1)]
+
     for i in range(0, n_records):
-        random_i = random.randint(0, len(state_list) - 1)
         instances.append(Clinic(
-            name=name_list[random.randint(0, len(name_list) - 1)],
-            zip_code=i,
-            state=state_list[random_i - 1],
-            city='pitts',
+            name=random_pick(name_list),
+            zip_code=random.randint(0, 100000),
+            state=random_pick(state_list),
+            city=random_pick(city_list),
             phizer_stock=random.randint(0, stock_threshold),
             moderna_stock=random.randint(0, stock_threshold),
             janssen_stock=random.randint(0, stock_threshold),
@@ -140,11 +156,3 @@ def clinics_bulk_insert(request, n_records):
         ))
         ret = Clinic.objects.bulk_create(instances)
     return render(request, "clinics/bulk_insert.html", {'result': ret})
-
-
-def random_boolean():
-    return True if random.randint(0, 10) % 2 == 0 else False
-
-
-def random_pick(list):
-    return list[random.randint(0, len(list) - 1)]

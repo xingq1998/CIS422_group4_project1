@@ -1,6 +1,4 @@
 {% load static %}
-{{ clinics }}
-{{ post_dict }}
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -370,12 +368,16 @@
                                 <br/>
                                 <b>Age groups served:</b>
                                 {% if clinic.Children == True %}Children{% endif %}
-                                {% if clinic.Adults == True %}Children{% endif %}
-                                {% if clinic.Seniors == True %}Children{% endif %}
-                                {% if clinic.Others == True %}Children{% endif %}
-                                {% if clinic.All_Ages == True %}Children{% endif %}
+                                {% if clinic.Adults == True %}Adults{% endif %}
+                                {% if clinic.Seniors == True %}Seniors{% endif %}
+                                {% if clinic.Others == True %}Others{% endif %}
+                                {% if clinic.All_Ages == True %}All_Ages{% endif %}
                                 <br/>
-                                <b>Services offered:</b> {{ clinic.services }}
+                                <b>Services offered:</b>
+                                {% if clinic.Testing == True %}Testing{% endif %}
+                                {% if clinic.Vaccination == True %}Vaccination{% endif %}
+                                {% if clinic.Screening == True %}Screening{% endif %}
+                                {% if clinic.COVID == True %}COVID{% endif %}
                             </p>
                             <a href="#" class="btn btn-primary">Schedule</a>
                         </div>
