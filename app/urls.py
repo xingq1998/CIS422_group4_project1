@@ -25,6 +25,7 @@ urlpatterns = [
     path('signup/', views.account_signup, name='signup'),
     path('login/', views.account_login, name='login'),
     path('logout/', views.account_logout, name='logout'),
+    path('info/', views.account_info, name="info"),
     path('clinics/', include('clinics.urls', namespace='clinics'))
     # <TR> Used so I can pull up the clinics page for debugging purposes
 ]
