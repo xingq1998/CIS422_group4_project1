@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            {% csrf_token %}
+            <br>
+            <div class="col-md-4">name: {{ user.username }}</div>
+            <br>
+            <br>
+            <div class="col-md-4">email: {{ user.email }}</div>
+            <br>
+            <div class="col-md-4">phone: {{ user.profile.phone }}</div>
+            <br>
+            <div class="col-md-4">
+                <a href='{% url "edit" user.id %}'>edit</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

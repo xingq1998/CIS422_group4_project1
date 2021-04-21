@@ -1,12 +1,21 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import loader
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import json
+from .forms import ProfileForm
+from .models import Profile
+
+
+def home(request):
+    return render(request, 'home.html', None)
 
 
 def index(request):
-    return render(request, 'home.html', None)
+    message = request.GET.get('message')
+    return render(request, 'users/index.html', {'message': message})
 
 
 def signup(request):
@@ -15,8 +24,9 @@ def signup(request):
 
 def account_signup(request):
     if request.user.is_authenticated:
-        return render(request, 'users/signup.html')
+        return redirect('/index/?message=account exists')
     if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
         post_dict = request.POST
         username = post_dict.get("username", "")
         email = post_dict.get("email", "")
@@ -27,30 +37,27 @@ def account_signup(request):
         user = User.objects.filter(username=username)
         if user:
             return redirect("/login")
-        new_user = User()
-        new_user.username = username
-        new_user.email = email
-        new_user.phone = phone
-        new_user.password = password
+        new_user = User.objects.create_user(username=username, password=password, email=email)
+        new_user.profile.phone = phone
         new_user.save()
-        return render(request, 'users/login.html', {'users': new_user})
+        return render(request, 'users/login.html')
     return render(request, 'users/signup.html')
 
 
 def account_login(request):
+    # if this is a POST request we need to process the form data
     if request.user.is_authenticated:
-        return render(request, 'users/login.html')
+        return redirect('/info/')
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         post_dict = request.POST
         username = post_dict.get("username", "")
         email = post_dict.get("email", "")
         password = post_dict.get("password", "")
-        # user = authenticate(username=username, password=password)
-        user = User.objects.get(username=username)
-        if user is not None and user.password == password:
+        user = authenticate(username=username, password=password)
+        if user is not None:
             login(request, user)
-            return render(request, 'users/index.html')
+            return redirect('/info/')
     return render(request, 'users/login.html')
 
 
@@ -61,13 +68,41 @@ def account_logout(request):
 
 # user info
 # need to login
-
 @login_required(login_url='/login/')
 def account_info(request):
     user = User.objects.get(id=request.user.id)
-    user.clean_fields('password')
-    u = dict()
-    u['username'] = user.username
-    u['email'] = user.email
-    # u['phone'] = user.userprofile.phone
-    return HttpResponse(json.dumps(u), content_type="application/json")
+    if request.method == 'GET':
+        return render(request, 'users/info.html', {'user': user})
+    return redirect("/index/?message=Request Error")
+
+
+@login_required(login_url='/login/')
+def edit(request, id):
+    user = User.objects.get(id=id)
+    if request.method == 'POST':
+        if request.user != user:
+            return redirect('/index/?message=Permission Forbidden')
+        form = ProfileForm(data=request.POST)
+        if form.is_valid():
+            post_dict = request.POST
+            username = post_dict.get("username", "")
+            email = post_dict.get("email", "")
+            phone = post_dict.get("phone", "")
+            password = post_dict.get("password", "")
+            if username != "":
+                user.username = username
+            if email != "":
+                user.email = email
+            if phone != "":
+                user.profile.phone = phone
+            if password != "":
+                user.set_password(password)
+            user.save()
+            return render(request, 'users/info.html', {'user': user})
+        else:
+            return redirect('/index/?message=Error Input')
+
+    elif request.method == 'GET':
+        return render(request, 'users/edit.html', {'user': user})
+    else:
+        return redirect('/info/')
