@@ -48,8 +48,10 @@ def clinics_all(request):
 def clinics_search(request):
     if request.method == 'POST':
         post_dict = request.POST
-        services = post_dict.get("services", "")
-        ages = post_dict.get("ages", "")
+
+        services = post_dict.getlist("services", "")
+        ages = post_dict.getlist("ages", "")
+
         zipcode = post_dict.get("zipCode", "")
         state = post_dict.get("state", "")
         city = post_dict.get("city", "")
@@ -81,21 +83,23 @@ def clinics_search(request):
             if 'covid19Vaccination' in services:
                 results = results.filter(COVID=True)
         if len(ages) > 0:
+            print('ages', ages)
             if 'allAges' in ages:
+                print('allAges')
                 results = results.filter(All_Ages=True)
             if 'children' in ages:
-                results = results.filter(Q(Children=True) | Q(All_Ages=True))
-                if 'adults' in ages:
-                    results = results.filter(Adults=True)
-                if 'seniors' in ages:
-                    results = results.filter(Seniors=True)
-                if 'others' in ages:
-                    results = results.filter(Others=True)
-            return render(request, "clinics/search.html",
-                          {'clinics': results, 'post_dict': post_dict})
-        else:
-            results = Clinic.objects.all()[:10]
-            return render(request, "clinics/search.html", {'clinics': results})
+                results = results.filter(Children=True)
+            if 'adults' in ages:
+                results = results.filter(Adults=True)
+            if 'seniors' in ages:
+                results = results.filter(Seniors=True)
+            if 'others' in ages:
+                results = results.filter(Others=True)
+        return render(request, "clinics/search.html",
+                      {'clinics': results, 'post_dict': post_dict})
+    else:
+        results = Clinic.objects.all()[:10]
+        return render(request, "clinics/search.html", {'clinics': results})
 
 
 def clinics_detail(request, clinic_id):
