@@ -8,5 +8,10 @@
             <div class="col-md-4"> error: {{ message }}</div>
         </div>
     </div>
+    {% if request.user.is_authenticated %}
+    <form class="clinics" method="GET" action="{% url 'clinics:search' %}">{% csrf_token %}
+        <button class="btn btn-primary" type="submit">clinics search</button>
+    </form>
+    {% endif %}
 </div>
 {% endblock content %}

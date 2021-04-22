@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="container">
     <div class="row">
         <div class="col-12">
             {% csrf_token %}
+            {% if request.user.is_authenticated %}
+            <form class="clinics" method="GET" action="{% url 'clinics:search' %}">{% csrf_token %}
+                <button class="btn btn-primary" type="submit">clinics search</button>
+            </form>
+            {% endif %}
             <br>
             <div class="col-md-4">name: {{ user.username }}</div>
             <br>
