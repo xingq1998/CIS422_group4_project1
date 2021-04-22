@@ -160,3 +160,11 @@ def clinics_bulk_insert(request, n_records):
         ))
         ret = Clinic.objects.bulk_create(instances)
     return render(request, "clinics/bulk_insert.html", {'result': ret})
+
+
+
+#-----------------Clinic Scheduler-------------#
+def clinic_schedule(request, clinic_id):
+    clinic = Clinic.objects.get(pk=clinic_id)
+    schedule = clinic.scheduletime_set.all()
+    return render(request, "clinics/schedule.html", {"schedule": schedule})

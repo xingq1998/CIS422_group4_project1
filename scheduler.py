@@ -53,7 +53,6 @@ def cancelAppt(user):
     outputs:
         The function returns an integer value. -1 indicates the user has no appt_time 
         associated with their account. 1 indicates success.
-
     """
     if user.appt_time is None:
         return -1
