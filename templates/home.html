@@ -1,10 +1,13 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
     <main>
         <head>
             <div class="Header" >
                 <strong class="black-text">COVID-19 Vaccines: Information and Appointments</strong>
+                <div class = "homepicture">
+                    <img src="{% static 'img/homepage_1.png' %}"/>
+                </div>
                 <style>
                     .Header{font-size: 200%}
                     .Header {
@@ -14,11 +17,73 @@
             </div>
         </head>
 
-        <div class="container">
-            <p>hello world</p>
-            {{ print }}
-            {{ test }}
-        </div>
+        <body>
+
+
+            <div class="container">
+                {{ print }}
+                {{ test }}
+            </div>
+                <div class="first_dose">
+                    <div class="photo_2"><img src="{% static 'img/homepage_2.jpg' %}"/><a><strong class="number_of_first_dose">133,266,995</strong></a>
+                        <p>people in the United States have already received their first</p>
+                        <p>dose of a COVID-19 vaccine.</p>
+                        <style>
+                            .number_of_first_dose{font-size: 200%;}
+                            .photo_2{
+                                padding-right: 500px;
+                            }
+                        </style>
+
+                    </div>
+                    <div class="photo_3"><img src="{% static 'img/homepage_3.png' %}"/>
+                        <style>
+                            .photo_3{
+                                text-align: center;
+                                transform: translateY(-150px);
+                            }
+                        </style>
+                    </div>
+
+                    <div class="right_part">
+                        <p>Looking for a vaccine? Get up-to-date </p>
+                        <p>information on locations near you.</p>
+                        <style>
+                            .right_part{font-size: 100%;
+                                padding-left: 500px;
+                            transform: translateY(-350px);
+                            }
+                        </style>
+
+                    </div>
+
+
+                    <div class="Visit_Vaccine_Finder">
+                        <a class="nav-link waves-effect" href="{% url 'clinics:search' %}">
+                            <button  style="width: 180px;height: 40px;background: #292421;- border: none;"><p style="color:#FFFFFF";><b>Visit Vaccine Finder</b></p></button>
+                        </a>
+                        <style>
+                            .Visit_Vaccine_Finder{font-size: 100%;
+                                padding-left: 500px;
+                            transform: translateY(-350px);
+                            }
+                        </style>
+                    </div>
+
+
+
+
+
+
+
+                <style>
+                    .first_dose {
+                            text-align: center;
+                    }
+                </style>
+            </div>
+
+        </body>
     </main>
 
 {% endblock content %}
