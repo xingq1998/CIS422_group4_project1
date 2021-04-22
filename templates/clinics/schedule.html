@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+<head>
+    <meta charset='utf-8'>
+</head>
+
+<h4> Please select an available time below: </h4>
+
+<table style="width:100%">
+    {% for appt in schedule %}
+        {% if appt.number_concurrent_appts > 0 %}
+        <tr> 
+            <td>
+                <a href="#">{{ appt.start_time }}</a>
+            </td>  
+        </tr>
+        {% else %}
+        <tr> 
+            <td>
+                {{ appt.start_time }}
+            </td>  
+        </tr>
+        {% endif %}
+    {% endfor %}
+</table>
+
+
+{% endblock %}

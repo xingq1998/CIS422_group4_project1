@@ -40,7 +40,7 @@ from enum import IntEnum
 from clinics.models import ScheduleTime, Clinic
 
 # CSV input file for clinic locations.
-CLINIC_INPUT_FILE = r"Test\input_clinics.csv"
+CLINIC_INPUT_FILE = r"Test/input_clinics.csv"
 
 class InputHeaders(IntEnum):
     ADDRESS = 0
