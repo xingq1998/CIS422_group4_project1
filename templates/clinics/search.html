@@ -382,7 +382,7 @@
                                     {% if clinic.Screening == True %}Screening{% endif %}
                                     {% if clinic.COVID == True %}COVID{% endif %}
                                 </p>
-                                <a href="#" class="btn btn-primary">Schedule</a>
+                                <a href="{% url 'clinics:clinic_schedule' clinic_id=clinic.id %}" class="btn btn-primary">Schedule</a>
                             </div>
                         </div>
                     </div>
