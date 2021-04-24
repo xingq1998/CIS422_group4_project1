@@ -28,6 +28,8 @@ urlpatterns = [
     path('logout/', views.account_logout, name='logout'),
     path('info/', views.account_info, name="info"),
     path('edit/<int:id>/', views.edit, name='edit'),
+    path('cancel/<int:id>/', views.cancel, name='cancel'),
+    path('is_scheduled/<int:id>/', views.is_schedule, name='is_scheduled'),
     path('clinics/', include('clinics.urls', namespace='clinics')),
     # <TR> Used so I can pull up the clinics page for debugging purposes
 ]

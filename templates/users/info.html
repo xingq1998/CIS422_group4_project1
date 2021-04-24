@@ -22,6 +22,17 @@
                 <a href='{% url "edit" user.id %}'>edit</a>
             </div>
         </div>
+        <div class="col-12">
+            {% for appoint in appoints %}
+                <div class="col-md-4"> clinic name : {{ appoint.name }}</div>
+                <div class="col-md-4"> clinic address: {{ appoint.address }}</div>
+                <div class="col-md-4"> count : {{ appoint.count }}</div>
+                <div class="col-md-4"> appoint time: {{ appoint.start_time }}</div>
+                <form class="cancel" method="GET" action="{% url 'cancel' appoint.id %}">{% csrf_token %}
+                    <button class="btn btn-primary" type="submit">cancel appointment</button>
+                </form>
+            {% endfor %}
+        </div>
     </div>
 
 </div>

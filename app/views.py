@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 import json
 from .forms import ProfileForm
 from .models import Profile
+from clinics.models import Clinic
 
 
 def home(request):
@@ -72,7 +73,35 @@ def account_logout(request):
 def account_info(request):
     user = User.objects.get(id=request.user.id)
     if request.method == 'GET':
-        return render(request, 'users/info.html', {'user': user})
+        schedules = user.profile.appoint.all()
+        appoints = list()
+
+        for schedule in schedules:
+            clinic = Clinic.objects.get(id=schedule.clinic_id_id)
+            appoint = dict()
+            appoint['id'] = schedule.id
+            appoint['name'] = clinic.name
+            appoint['address'] = clinic.address
+            appoint['start_time'] = schedule.start_time
+            appoint['count'] = schedule.number_concurrent_appts
+            appoints.append(appoint)
+
+        # fake data for testing
+        # appoint = dict()
+        # appoint['id'] = 1
+        # appoint['name'] = 'hu'
+        # appoint['address'] = 'test'
+        # appoint['start_time'] = "2021-3-10"
+        # appoint['count'] = 1
+        # appoints.append(appoint)
+        # appoint = dict()
+        # appoint['id'] = 2
+        # appoint['name'] = 'hq'
+        # appoint['address'] = 'test1'
+        # appoint['start_time'] = "2021-3-11"
+        # appoint['count'] = 2
+        # appoints.append(appoint)
+        return render(request, 'users/info.html', {'user': user, 'appoints': appoints})
     return redirect("/index/?message=Request Error")
 
 
@@ -106,3 +135,22 @@ def edit(request, id):
         return render(request, 'users/edit.html', {'user': user})
     else:
         return redirect('/info/')
+
+
+@login_required(login_url='/login/')
+def cancel(request, id):
+    if request.method == 'GET':
+        profile = Profile.objects.get(user_id=request.user.id)
+        profile.appoint.remove(id)
+        return redirect('/info/')
+    return redirect('/info/')
+
+
+@login_required(login_url='/login/')
+def is_schedule(request, id):
+    user = User.objects.get(request.user.id)
+    appoints = user.profile.appoint.all()
+    for appoint in appoints:
+        if appoint.clinic_id == id:
+            return True
+    return False

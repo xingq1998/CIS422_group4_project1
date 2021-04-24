@@ -172,22 +172,22 @@ def clinic_schedule(request, clinic_id):
 
 def schedule_appt(request, sched_id):
     # for testing
-    # sched = ScheduleTime.objects.get(id=sched_id)
-    # if sched.number_concurrent_appts > 0:
-    #     time = sched.start_time
-    #     clinic = sched.clinic_id.name
-    #     response = 1
-    #     usr = request.user
-    #     context = {
-    #        'time': time,
-    #        'clinic': clinic,
-    #        'resp': response,
-    #        'usr': usr,
-    #     }
-    # else:
-    #     response = 2
-    #     context = { 'resp': response }
-    # return render(request, "clinics/schedule_appt.html", context)
+    sched = ScheduleTime.objects.get(id=sched_id)
+    if sched.number_concurrent_appts > 0:
+        time = sched.start_time
+        clinic = sched.clinic_id.name
+        response = 1
+        usr = request.user
+        context = {
+           'time': time,
+           'clinic': clinic,
+           'resp': response,
+           'usr': usr,
+        }
+    else:
+        response = 2
+        context = { 'resp': response }
+    return render(request, "clinics/schedule_appt.html", context)
         
     # Check that user is not already scheduled
     
@@ -201,4 +201,4 @@ def schedule_appt(request, sched_id):
 
 
 def cancel_appt(request, sched_id):
-    #
+    pass
