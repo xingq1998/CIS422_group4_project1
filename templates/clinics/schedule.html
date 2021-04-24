@@ -12,7 +12,7 @@
         {% if appt.number_concurrent_appts > 0 %}
         <tr> 
             <td>
-                <a href="#">{{ appt.start_time }}</a>
+                <a href="{% url 'clinics:sched_appt' sched_id=appt.id %}">{{ appt.start_time }}</a>
             </td>  
         </tr>
         {% else %}
