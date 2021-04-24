@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<head>
+    <meta charset='utf-8'>
+</head>
+
+{% if resp == 1 %}
+<h2>Congrats {{usr}}! Appt for {{time}} at {{clinic}} scheduled.</h2>
+{% else %}
+<h2>Sorry {{usr}}, this appointment is no longer available.</h2>
+{% endif %}
+
+{% endblock %}
