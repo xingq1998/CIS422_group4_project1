@@ -6,7 +6,8 @@
 </head>
 
 {% if resp == 2 %}
-<h2> Sorry, this appointment is no longer available. Please go back and try again. </h2>
+<p> Sorry, this appointment is no longer available. Please go
+     <a href="{% url 'clinics:search' %}">back</a> and try again. </p>
 {% elif resp == 1 %} 
 <center>
     <p> Your appointment for </p>
