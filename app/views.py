@@ -76,32 +76,19 @@ def account_info(request):
     if request.method == 'GET':
         schedules = user.profile.appoint.all()
         appoints = list()
-
         for schedule in schedules:
             clinic = Clinic.objects.get(id=schedule.clinic_id_id)
             appoint = dict()
             appoint['id'] = schedule.id
             appoint['name'] = clinic.name
+            appoint['city'] = clinic.city
+            appoint['zip_code'] = clinic.zip_code
+            appoint['stat'] = clinic.state
+            appoint['pic_address'] = clinic.pic_address
             appoint['address'] = clinic.address
             appoint['start_time'] = schedule.start_time
             appoint['count'] = schedule.number_concurrent_appts
             appoints.append(appoint)
-
-        # fake data for testing
-        # appoint = dict()
-        # appoint['id'] = 1
-        # appoint['name'] = 'hu'
-        # appoint['address'] = 'test'
-        # appoint['start_time'] = "2021-3-10"
-        # appoint['count'] = 1
-        # appoints.append(appoint)
-        # appoint = dict()
-        # appoint['id'] = 2
-        # appoint['name'] = 'hq'
-        # appoint['address'] = 'test1'
-        # appoint['start_time'] = "2021-3-11"
-        # appoint['count'] = 2
-        # appoints.append(appoint)
         return render(request, 'users/info.html', {'user': user, 'appoints': appoints})
     return redirect("/index/?message=Request Error")
 
