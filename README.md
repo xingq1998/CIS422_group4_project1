@@ -45,17 +45,17 @@ server on port 8080:
 
 To create your module, make sure you’re in the same directory as manage.py and type this command:
 
-`python manage.py startapp [new module name]`
+`$ python manage.py startapp [new module name]`
 
 To sync models with db updates, the following commands can be used:
 
-`python manage.py makemigrations`
+`$ python manage.py makemigrations`
 
-` python manage.py migrate `
+`$ python manage.py migrate `
 
 To populate dummy clinics for functional testing, run the following command in the terminal:
 
-` python uploadTestData.py `
+`$ python uploadTestData.py `
 
 # Reference
 
