@@ -54,6 +54,7 @@ To sync models with db updates, the following commands can be used:
 ` python manage.py migrate `
 
 To populate dummy clinics for functional testing, run the following command in the terminal:
+
 ` python uploadTestData.py `
 
 # Reference
