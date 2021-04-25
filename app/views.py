@@ -5,9 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import json
+import datetime
 from .forms import ProfileForm
 from .models import Profile
-from clinics.models import Clinic
+from clinics.models import Clinic, ScheduleTime
 
 
 def home(request):
@@ -142,6 +143,9 @@ def cancel(request, id):
     if request.method == 'GET':
         profile = Profile.objects.get(user_id=request.user.id)
         profile.appoint.remove(id)
+        schedtime = ScheduleTime.objects.get(pk=id)
+        schedtime.number_concurrent_appts += 1
+        schedtime.save()
         return redirect('/info/')
     return redirect('/info/')
 
