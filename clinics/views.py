@@ -40,6 +40,9 @@ def clinics_search(request):
             results = results.filter(datetime__year=int(year))
         if vaccine_brand != '':
             results = results.filter(Q(phizer_stock__gt=0) | Q(moderna_stock__gt=0) | Q(janssen_stock__gt=0)) # Filter for available stock
+        
+        # filter out non existent scedules
+        results = results.filter(scheduletime__number_concurrent_appts__gt=0)
             
         if len(services) > 0:
             if 'testing' in services:
@@ -66,7 +69,9 @@ def clinics_search(request):
         return render(request, "clinics/search.html",
                       {'clinics': results, 'post_dict': post_dict})
     else:
-        results = Clinic.objects.all()[:10]
+        # Removes any queries that have no appointment times
+        results = Clinic.objects.all().filter(scheduletime__number_concurrent_appts__gt=0)
+        results = results[:10]
         return render(request, "clinics/search.html", {'clinics': results})
 
 
