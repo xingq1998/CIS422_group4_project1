@@ -7,57 +7,50 @@ Welcome to Vaccine Clinic Information and Scheduling System
 * Team: NoMad
 * Course Name: CIS 422
 * Assignment: Project 1
-* Date: April 14th, 2021
+* Date: April 26th, 2021
 
 # Architecture
 
-The website consist of three parts:
+The website consist of two parts:
 
 * A public site that lets people view user and clinic information.
-* An admin site that lets you add, change, and delete data.
+* An abilty for a user to schedule and manage a vaccination appointment at a clinic.
 
 # Environment
 
-database: mysql https://dev.mysql.com/downloads/mysql/
-backend: django Python 3.7.9
+* database: SQLite
+* Website framework: django Python 3.7.9
 
 # How to run
 
-We’ll assume you have Django installed already.
+1) Open a shell program of your choice and change to the directory where this program is located.
+2) You must have the django package installed on your local machine. You can tell Django is installed and which version by running the following command.
 
-You can tell Django is installed and which version by running the following command in a shell prompt (indicated by the
-$ prefix):
+    `$ python -m django --version`
 
-`$ python -m django --version`
+3) The following command must be run if there is no version of django found.
 
-To run the Django project, first change into the outest directory, and run the following command in a shell prompt:
+    `$ pip install django`
 
-`$ python manage.py runserver `
+4) Once django is installed, the database tables need to be created and synced by runing the following commands:
 
-Changing the port
+    `$ python manage.py makemigrations`
 
-By default, the runserver command starts the development server on the internal IP at port 8000.
+    `$ python manage.py migrate`
 
-If you want to change the server’s port, pass it as a command-line argument. For instance, this command starts the
-server on port 8080:
+5) Populate the database tables with test data by running:
 
-`$ python manage.py runserver 8080`
+    `$ python uploadTestData.py `
 
-To create your module, make sure you’re in the same directory as manage.py and type this command:
+6) To run the Django project, run the following command in the shell prompt:
 
-`$ python manage.py startapp [new module name]`
+    `$ python manage.py runserver `
 
-To sync models with db updates, the following commands can be used:
+7) Finally, you will be able to use the website while the server is running. See UserGuied.md file for documntation on how to access and use the site.
 
-`$ python manage.py makemigrations`
+8) Once you are done with the server and scheduling an appointment, return to the shell where you enterd the previous commands and press ctrl+c to stop the local server from running.
 
-`$ python manage.py migrate `
-
-To populate dummy clinics for functional testing, run the following command in the terminal:
-
-`$ python uploadTestData.py `
 
 # Reference
 
 For Django backend: https://docs.djangoproject.com/en/3.2
-
