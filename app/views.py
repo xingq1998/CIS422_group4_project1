@@ -83,7 +83,7 @@ def account_info(request):
             appoint['name'] = clinic.name
             appoint['city'] = clinic.city
             appoint['zip_code'] = clinic.zip_code
-            appoint['stat'] = clinic.state
+            appoint['state'] = clinic.state
             appoint['pic_address'] = clinic.pic_address
             appoint['address'] = clinic.address
             appoint['start_time'] = schedule.start_time
