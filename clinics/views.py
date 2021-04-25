@@ -4,6 +4,7 @@ from django.http import HttpResponse
 import random
 
 from .models import Clinic, ScheduleTime
+from app.models import Profile
 
 
 # Create your views here.
@@ -171,34 +172,39 @@ def clinic_schedule(request, clinic_id):
 
 
 def schedule_appt(request, sched_id):
-    # for testing
+    # Get ScheduleTime from db
     sched = ScheduleTime.objects.get(id=sched_id)
+
+    # Set response based on appt availability (handled in html)
     if sched.number_concurrent_appts > 0:
-        time = sched.start_time
-        clinic = sched.clinic_id.name
         response = 1
-        usr = request.user
-        context = {
+       
+    else:
+        response = 2
+
+    # Collect information to add to context
+    usr = request.user
+    time = sched.start_time
+    clinic = sched.clinic_id.name
+
+    # Create context list to send to page
+    context = {
            'time': time,
            'clinic': clinic,
            'resp': response,
            'usr': usr,
+           'usr_prof': usr.profile,
         }
-    else:
-        response = 2
-        context = { 'resp': response }
+    
+    # Check that user is not already scheduled and appt available
+    if (usr.profile.is_scheduled == False) and (response == 1):
+        # Decrement number_concurrent_appts
+        sched.number_concurrent_appts -= 1
+        sched.save()
+        # Assign appointment to user
+        usr.profile.appoint.add(sched)
+        usr.profile.is_scheduled = True
+        usr.profile.save()
+
+    # Render appt schedule confirmation/error page
     return render(request, "clinics/schedule_appt.html", context)
-        
-    # Check that user is not already scheduled
-    
-    # Check that appointment time is still available
-    
-    # Decrement number_concurrent_appts
-
-    # Assign appointment to user
-
-    # Render success!
-
-
-def cancel_appt(request, sched_id):
-    pass

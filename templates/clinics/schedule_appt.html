@@ -5,10 +5,14 @@
     <meta charset='utf-8'>
 </head>
 
-{% if resp == 1 %}
-<h2>Congrats {{usr}}! Appt for {{time}} at {{clinic}} scheduled.</h2>
-{% else %}
-<h2>Sorry {{usr}}, this appointment is no longer available.</h2>
+{% if resp == 2 %}
+<h2> Sorry, this appointment is no longer available. Please go back and try again. </h2>
+{% elif resp == 1 %} 
+<center>
+    <p> Your appointment for </p>
+    <p> {{ time }} </p>
+    <p> at {{clinic}} </p>
+    <p> has been successfully scheduled! Please visit your user profile page to view or cancel appointments. </p>
+</center>
 {% endif %}
-
 {% endblock %}
