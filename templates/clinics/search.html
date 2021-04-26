@@ -35,75 +35,11 @@
                 </div>
             </div>
             <div class="top-form">
-                <div class="title">Find a Vaccination Clinic</div>
                 <form method="POST" action="{% url 'clinics:search' %}">{% csrf_token %}
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="form-item">
-                                <div class="label">Which service(s) are you seeking?</div>
-                                <div class="input">
-                                    <div class="form-check form-check-inline">
-                                        <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                name="services"
-                                                value="testing"
-                                                id="top-form-service-testing"
-                                        />
-                                        <label
-                                                class="form-check-label"
-                                                for="top-form-service-testing"
-                                        >
-                                            Testing
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                name="services"
-                                                value="vaccination"
-                                                id="top-form-service-vaccination"
-                                        />
-                                        <label
-                                                class="form-check-label"
-                                                for="top-form-service-vaccination"
-                                        >
-                                            Vaccination
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                name="services"
-                                                value="screening"
-                                                id="top-form-service-screening"
-                                        />
-                                        <label
-                                                class="form-check-label"
-                                                for="top-form-service-screening"
-                                        >
-                                            Screening
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                name="services"
-                                                value="covid19Vaccination"
-                                                id="top-form-service-covid19"
-                                        />
-                                        <label
-                                                class="form-check-label"
-                                                for="top-form-service-covid19"
-                                        >
-                                            COVID-19 Vaccination
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="title">Find a Vaccination Clinic</div>
+                                
                         </div>
                         <div class="col-sm-6">
                             <div class="form-item">
@@ -267,6 +203,7 @@
                                             style="width: 40%; display: inline-block"
                                             name="month"
                                     >
+                                        <option value=""></option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
                                         <option value="3">March</option>
@@ -285,6 +222,7 @@
                                             style="width: 25%; display: inline-block"
                                             name="day"
                                     >
+                                        <option value=""></option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -361,26 +299,20 @@
                             />
                             <div class="card-body">
                                 <h5 class="card-title">{{ clinic.name }}</h5>
-                                <h6 class="card-title">{{ clinic.city }}, {{ clinic.state }}, {{ clinic.zip_code }}</h6>
+                                <h6 class="card-title">{{ clinic.address }} {{ clinic.city }}, {{ clinic.state }}, {{ clinic.zip_code }}</h6>
                                 <p class="card-text">
-                                    3000 N 14th St, Suite 3A, Bismarck ND, 58503 <br/>
                                     <b>Vaccinations offered:</b>
                                     {% if clinic.phizer_stock > 0 %}Phizer{% endif %}
                                     {% if clinic.moderna_stock > 0 %}Moderna{% endif %}
                                     {% if clinic.janssen_stock > 0 %}Janssen{% endif %}
                                     <br/>
                                     <b>Age groups served:</b>
+                                    {% if clinic.All_Ages == True %}All_Ages{% endif %}
                                     {% if clinic.Children == True %}Children{% endif %}
                                     {% if clinic.Adults == True %}Adults{% endif %}
                                     {% if clinic.Seniors == True %}Seniors{% endif %}
                                     {% if clinic.Others == True %}Others{% endif %}
-                                    {% if clinic.All_Ages == True %}All_Ages{% endif %}
                                     <br/>
-                                    <b>Services offered:</b>
-                                    {% if clinic.Testing == True %}Testing{% endif %}
-                                    {% if clinic.Vaccination == True %}Vaccination{% endif %}
-                                    {% if clinic.Screening == True %}Screening{% endif %}
-                                    {% if clinic.COVID == True %}COVID{% endif %}
                                 </p>
                                 {% if user.is_authenticated %}
                                 <a href="{% url 'clinics:clinic_schedule' clinic_id=clinic.id %}" class="btn btn-primary">Schedule</a>

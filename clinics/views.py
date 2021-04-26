@@ -36,36 +36,41 @@ def clinics_search(request):
             results = results.filter(city__startswith=str.lower(city))
         if location != '':
             results = results.filter(location__contains=location)
-        if year != '':
-            results = results.filter(datetime__year=int(year))
-        if vaccine_brand != '':
+        
+        # filter vaccines
+        if vaccine_brand == "all":
             results = results.filter(Q(phizer_stock__gt=0) | Q(moderna_stock__gt=0) | Q(janssen_stock__gt=0)) # Filter for available stock
+        elif vaccine_brand == "pfizer":
+            results = results.filter(phizer_stock__gt=0)
+        elif vaccine_brand == "moderna":
+            results = results.filter(moderna_stock__gt=0)    
+        elif vaccine_brand == "janssen":
+            results = results.filter(janssen_stock__gt=0)
+
+        # Filter dates
+        if year != '':
+            results = results.filter(datetime__year=year)
+        if month != '':
+            results = results.filter(datetime__month=month)
+        if day != '':
+            results = results.filter(datetime__day=day)        
         
         # filter out non existent scedules
         results.union(results, ScheduleTime.objects.all().filter(number_concurrent_appts__gt=0))
-    
-        if len(services) > 0:
-            if 'testing' in services:
-                results = results.filter(Testing=True)
-            if 'vaccination' in services:
-                results = results.filter(Vaccination=True)
-            if 'screening' in services:
-                results = results.filter(Screening=True)
-            if 'covid19Vaccination' in services:
-                results = results.filter(COVID=True)
+
         if len(ages) > 0:
-            print('ages', ages)
             if 'allAges' in ages:
-                print('allAges')
                 results = results.filter(All_Ages=True)
-            if 'children' in ages:
-                results = results.filter(Children=True)
-            if 'adults' in ages:
-                results = results.filter(Adults=True)
-            if 'seniors' in ages:
-                results = results.filter(Seniors=True)
-            if 'others' in ages:
-                results = results.filter(Others=True)
+            else:
+                if 'children' in ages:
+                    results = results.exclude(Children=False)
+                if 'adults' in ages:
+                    results = results.exclude(Adults=False)
+                if 'seniors' in ages:
+                    results = results.exclude(Seniors=False)
+                if 'others' in ages:
+                    results = results.exclude(Others=False)
+
         return render(request, "clinics/search.html",
                       {'clinics': results, 'post_dict': post_dict})
     else:
