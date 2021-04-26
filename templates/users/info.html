@@ -57,9 +57,8 @@
                                 />
                                 <div class="card-body">
                                     <h5 class="card-title">{{ appoint.name }}</h5>
-                                    <h5 class="card-title">{{ appoint.city }}, {{ appoint.state }}, {{ appoint.zip_code }}</h5>
+                                    <h5 class="card-title">{{ appoint.address }}, {{ appoint.city }}, {{ appoint.state }}, {{ appoint.zip_code }}</h5>
                                     <h5 class="card-title">{{ appoint.start_time }}</h5>
-                                    <h6 class="card-title">numbers of concurrent appoints: {{ appoint.count }}</h6>
                                     <a href="{% url 'cancel' appoint.id %}" class="btn btn-primary">Cancel</a>
                                 </div>
                             </div>
