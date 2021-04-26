@@ -42,8 +42,8 @@ def clinics_search(request):
             results = results.filter(Q(phizer_stock__gt=0) | Q(moderna_stock__gt=0) | Q(janssen_stock__gt=0)) # Filter for available stock
         
         # filter out non existent scedules
-        results = results.filter(scheduletime__number_concurrent_appts__gt=0)
-            
+        results.union(results, ScheduleTime.objects.all().filter(number_concurrent_appts__gt=0))
+    
         if len(services) > 0:
             if 'testing' in services:
                 results = results.filter(Testing=True)
@@ -70,7 +70,8 @@ def clinics_search(request):
                       {'clinics': results, 'post_dict': post_dict})
     else:
         # Removes any queries that have no appointment times
-        results = Clinic.objects.all().filter(scheduletime__number_concurrent_appts__gt=0)
+        results = Clinic.objects.all()
+        results.union(results, ScheduleTime.objects.all().filter(number_concurrent_appts__gt=0))
         results = results[:10]
         return render(request, "clinics/search.html", {'clinics': results})
 
