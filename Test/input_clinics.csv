@@ -1,5 +1,5 @@
 Address,City,State,ZipCode,PhizerStock,ModernaStock 
-145 E 18th Ave,Eugene,OR,97401,5,5
+145 E 18th Ave,Eugene,OR,97401,10,5
 57 W 29th Ave,Eugene,OR,97405,5,5
 3075 Hilyard St,Eugene,OR,97405,5,5
 311 Coburg Rd,Eugene,OR,97401,5,5
@@ -8,3 +8,15 @@ Address,City,State,ZipCode,PhizerStock,ModernaStock
 202 N Division St,Auburn,WA,98001,5,0
 33702 21st Ave Sw,Federal Way,WA,98023,0,5
 28817 Military Rd S,Federal Way,WA,98003,0,5
+2508 E Riverside Dr,Austin,TX, 78741,5,5
+1144 Airport Blvd,Austin,TX,78702, 7,7
+5496 University Pkwy,Winston-salem,NC,27105,4,4
+3095 Waughtown St,Winston-salem,NC,27107,5,3
+1534 E Florence Ave,Los Angeles,CA,90001,3,3
+9607 Hilldale Avenue,Hamden,CT,06514,6,6
+288 Mammoth St,Deerfield,IL,60015,6,7
+9852 Hillside Dr,Banning,CA,92220,5,5
+9997 Walnut Road,Pikesville,MD,21208,4,4
+881 West Central St,West Chester,PA,19380,2,2
+13 W. Westport Street,Chippewa Falls,WI,54729,4,4
+5 SE. Rockwell St,Teaneck,NJ,07666,4,4
