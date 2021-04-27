@@ -4,3 +4,4 @@ __pycache__/
 db.sqlite3
 venv/
 */migrations/0*
+app/migrations/
